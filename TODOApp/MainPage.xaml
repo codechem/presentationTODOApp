@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TODOApp.MainPage"
+             Title="My Todo's"
+             x:Name="root">
+    <StackLayout>
+        <StackLayout Margin="20">
+            <StackLayout>
+                <Label
+                    Text="Description"/>
+                <Entry
+                    Placeholder="Description" Text="{Binding Description}"/>
+            </StackLayout>
+            <StackLayout>
+                <Label
+                    Text="Date"/>
+                <DatePicker Date="{Binding SelectedDate}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+            <Button
+                Text="Create Item"
+                TextColor="White"
+                HorizontalOptions="StartAndExpand"
+                BackgroundColor="Green"
+                Command="{Binding OnCreateItemCommand}"/>
+            <Button
+                Text="History"
+                TextColor="White"
+                HorizontalOptions="StartAndExpand"
+                BackgroundColor="LightBlue"
+                Clicked="Button_Clicked"/>
+            </StackLayout>
+            
+        </StackLayout>
+
+        <ListView
+            ItemsSource="{Binding Items}"
+            SeparatorVisibility="None"
+            HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                            Margin="10,10,10,0"
+                            CornerRadius="10"
+                            BackgroundColor="LightGray">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsChecked}" Grid.Column="0" />
+                                <StackLayout Grid.Column="1">
+                                    <Label Text="{Binding Description}" TextDecorations="{Binding TextDecoration}" />
+                                    <Label Text="{Binding SelectedDate}"/>
+                                </StackLayout>
+                                <Label
+                                    IsVisible="{Binding IsOverdue}"
+                                    Text="Overdue"
+                                    TextColor="Red"
+                                    VerticalTextAlignment="Center"
+                                    Grid.Column="2"/>
+                                <Button
+                                    WidthRequest="50"
+                                    BackgroundColor="Transparent"
+                                    Grid.Column="3"
+                                    Text="X"
+                                    TextColor="Red"
+                                    Command="{Binding BindingContext.OnDeleteItemCommand, Source={x:Reference root}}"
+                                    CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+   </StackLayout>
+
+</ContentPage>
